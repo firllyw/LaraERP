@@ -1,10 +1,10 @@
 <?php
 
-namespace App\App\Models;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class RequestOrders extends Model
+class RequestOrder extends Model
 {
         protected $fillable = ['supplier_id', 'material_id', 'attachment', 'detail', 'created_at', 'updated_at'];
 
