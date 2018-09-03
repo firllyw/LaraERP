@@ -14,7 +14,8 @@ class ModuleController extends Controller
      */
     public function index()
     {
-        //
+        $items = Module::get()->toArray();
+        return view('managements.module.index', compact('items'));
     }
 
     /**
@@ -35,7 +36,13 @@ class ModuleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try{
+            $response = Module::firstOrCreate($request->except('_token'));
+            return back()->with('success', 'New Module Created');
+        }
+        catch(\Throwable $ex){
+            return back()->with('failed', $ex->getMessage().' at Line '.$ex->getLine());
+        }
     }
 
     /**
