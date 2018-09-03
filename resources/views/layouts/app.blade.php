@@ -184,16 +184,14 @@
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu" data-widget="tree">
                 <li class="header">MAIN NAVIGATION</li>
-                <li>
+                <li class="">
                     <a href="{{route('usersAccess.index')}}">
                         <i class="fa fa-users"></i> <span>Users Access</span>
-                        <span class="pull-right-container">
                     </a>
                 </li>
-                <li>
-                    <a href="{{route('usersAccess.index')}}">
+                <li class="">
+                    <a href="{{route('modules.index')}}">
                             <i class="fa fa-th"></i> <span>Modules</span>
-                            <span class="pull-right-container">
                     </a>
                 </li>
             </ul>

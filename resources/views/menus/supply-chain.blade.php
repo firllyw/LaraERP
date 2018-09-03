@@ -1,6 +1,6 @@
 <ul class="sidebar-menu" data-widget="tree">
     <li class="header">Supply Chain Management</li>
-    <li class="active treeview">
+    <li class="treeview">
       <a href="#">
         <i class="fa fa-dashboard"></i> <span>Dashboard</span>
         <span class="pull-right-container">
