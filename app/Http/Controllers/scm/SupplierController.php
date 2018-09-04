@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\scm;
 
 use App\Models\Supplier;
+use App\Models\Material;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class SupplierController extends Controller
 {
@@ -14,7 +16,9 @@ class SupplierController extends Controller
      */
     public function index()
     {
-        //
+        $items = Supplier::with('supplierMaterial')->get()->toArray();
+
+        return view('scm.supplier.index', compact('items'));
     }
 
     /**
@@ -35,7 +39,15 @@ class SupplierController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try{
+            Supplier::firstOrCreate($request->all());
+
+            return redirect()->route('supplier.index')->with('success', 'New Supplier Added');
+        }
+        catch(\Throawble $ex){
+            return back()->with('failed', $ex->getMessage().' at Line '.$ex->getLine());
+        }
+
     }
 
     /**
@@ -69,7 +81,14 @@ class SupplierController extends Controller
      */
     public function update(Request $request, Supplier $supplier)
     {
-        //
+        try{
+            Supplier::update($request->all());
+
+            return redirect()->route('supplier.index')->with('success', 'Supplier Updated');
+        }
+        catch(\Throawble $ex){
+            return back()->with('failed', $ex->getMessage().' at Line '.$ex->getLine());
+        }
     }
 
     /**
@@ -78,8 +97,15 @@ class SupplierController extends Controller
      * @param  \App\Models\Supplier  $supplier
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Supplier $supplier)
+    public function destroy($id, Supplier $supplier)
     {
-        //
+        try{
+            Supplier::destroy($id);
+
+            return redirect()->route('supplier.index')->with('success', 'Supplier Deleted');
+        }
+        catch(\Throawble $ex){
+            return back()->with('failed', $ex->getMessage().' at Line '.$ex->getLine());
+        }
     }
 }

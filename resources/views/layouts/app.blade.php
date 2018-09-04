@@ -194,6 +194,11 @@
                             <i class="fa fa-th"></i> <span>Modules</span>
                     </a>
                 </li>
+                <li class="">
+                    <a href="{{route('status.index')}}">
+                            <i class="fa fa-info"></i> <span>Status</span>
+                    </a>
+                </li>
             </ul>
             {{session()->get('access')}}
             @if(strpos(Session::get('access'), "1") !== false)

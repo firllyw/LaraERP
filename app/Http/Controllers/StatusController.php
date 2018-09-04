@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Status;
+use App\Models\Module;
 use Illuminate\Http\Request;
 
 class StatusController extends Controller
 {
+    var $title = 'Status';
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +16,9 @@ class StatusController extends Controller
      */
     public function index()
     {
-        //
+        $items = Status::with('modules')->get()->toArray();
+        $modules = Module::get()->toArray();
+        return view('managements.status.index', compact('items', 'modules'));
     }
 
     /**
@@ -35,7 +39,19 @@ class StatusController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try{
+            foreach($request->input('modules') as $module){
+                $response = Status::firstOrCreate([
+                    'title' => $request->input('title'),
+                    'module_id' => $module
+                ]);
+            }
+            Session::flash('success','New Status Added');
+            return back();
+        }
+        catch (\Throwable $ex){
+            return back()->with('failed', $ex->getMessage().' at Line '.$ex->getLine());
+        }
     }
 
     /**

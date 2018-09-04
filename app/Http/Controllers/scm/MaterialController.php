@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Scm;
 
 use App\Models\Material;
 use Illuminate\Http\Request;
@@ -16,6 +16,9 @@ class MaterialController extends Controller
     {
         try{
             $items = Material::all()->toArray();
+        }
+        catch(\Throwable $ex){
+
         }
     }
 

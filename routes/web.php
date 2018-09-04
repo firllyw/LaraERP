@@ -21,9 +21,15 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resources([
     'usersAccess' => 'UsersAccessController',
+    'modules' => 'ModuleController',
+    'status' => 'StatusController',
+]);
+
+Route::group(['prefix' => 'scm', 'namespace' => 'scm'], function () {
+    Route::resources([
     'materials' => 'MaterialController',
     'suppliers' => 'SupplierController',
-    'request-orders' => 'RequestOrderController',
+    'requests' => 'RequestOrderController',
     'supplier-material' => 'SupplierMaterialController',
-    'modules' => 'ModuleController',
-]);
+    ]);
+});
