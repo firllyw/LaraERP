@@ -1,9 +1,13 @@
 <!DOCTYPE html>
+@php
+$routeName = \Route::current()->getName();
+$splitterRoute = explode('.', $routeName);
+@endphp
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>AdminLTE 2 | Data Tables</title>
+    <title>LaraERP | {{(isset($splitterRoute[0]))?$splitterRoute[0]:''}}</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.7 -->
@@ -16,7 +20,8 @@
     <link rel="stylesheet" href="{{asset('dist/css/AdminLTE.min.css')}}">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
-    <link rel="stylesheet" href="{{asset('dist/css/skins/_all-skins.min.css')}}">
+    <link rel="stylesheet" href="{{asset('dist/css/skins/skin-black.min.css')}}">
+    <link rel="stylesheet" href="{{asset('dist/css/skins/skin-black.css')}}">
     <!-- Morris chart -->
     <link rel="stylesheet" href="{{asset('bower_components/morris.js/morris.css')}}">
     <!-- Date Picker -->
@@ -27,6 +32,8 @@
     <!-- bootstrap wysihtml5 - text editor -->
     <link rel="stylesheet" href="{{asset('plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css')}}">
     <link rel="stylesheet" href="{{asset('bower_components/select2/dist/css/select2.min.css')}}">
+    <link rel="stylesheet" href="{{asset('bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css')}}">
+
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -113,7 +120,7 @@
                     <!-- User Account: style can be found in dropdown.less -->
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+                        <img src="{{asset('dist/img/user2-160x160.jpg')}}" class="user-image" alt="User Image">
                             <span class="hidden-xs">{!! Auth::user()->name!!}</span>
                         </a>
                         <ul class="dropdown-menu">
@@ -163,14 +170,14 @@
             <!-- Sidebar user panel -->
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                <img src="{{asset('dist/img/user2-160x160.jpg')}}" class="img-circle" alt="User Image">
                 </div>
                 <div class="pull-left info">
                     <p>{!! Auth::user()->name !!}</p>
                     <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                 </div>
             </div>
-            <!-- search form -->
+            <!-- search form
             <form action="#" method="get" class="sidebar-form">
                 <div class="input-group">
                     <input type="text" name="q" class="form-control" placeholder="Search...">
@@ -180,7 +187,7 @@
               </span>
                 </div>
             </form>
-            <!-- /.search form -->
+             /.search form -->
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu" data-widget="tree">
                 <li class="header">MAIN NAVIGATION</li>
@@ -200,8 +207,8 @@
                     </a>
                 </li>
             </ul>
-            {{session()->get('access')}}
             @if(strpos(Session::get('access'), "1") !== false)
+
                 @include('menus.supply-chain')
             @endif
         </section>
@@ -225,6 +232,9 @@
 <script>
     $.widget.bridge('uibutton', $.ui.button);
 </script>
+<!-- DataTables -->
+<script src="{{asset('bower_components/datatables.net/js/jquery.dataTables.min.js')}}"></script>
+<script src="{{asset('bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="{{asset('bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
 <!-- Morris.js charts -->
@@ -322,6 +332,19 @@
             showInputs: false
         })
     })
+</script>
+
+<script>
+        $(function () {
+          $('#table1').DataTable({
+            'paging'      : true,
+            'lengthChange': false,
+            'searching'   : false,
+            'ordering'    : true,
+            'info'        : true,
+            'autoWidth'   : false
+          })
+        })
 </script>
 </body>
 </html>

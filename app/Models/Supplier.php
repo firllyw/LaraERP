@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Supplier extends Model
 {
-    protected $fillable = ['title', 'created_at', 'updated_at'];
+    protected $fillable = ['title', 'detail', 'address', 'phone', 'representative', 'representative_position', 'status_id', 'documents', 'country_id', 'province_id', 'city_id', 'created_at', 'updated_at'];
 
     public function supplierMaterial()
     {
@@ -16,5 +16,10 @@ class Supplier extends Model
     public function requestOrder()
     {
         return $this->hasMany(RequestOrder::class, 'supplier_id');
+    }
+
+    public function status()
+    {
+        return $this->belongsTo(Status::class, 'status_id');
     }
 }

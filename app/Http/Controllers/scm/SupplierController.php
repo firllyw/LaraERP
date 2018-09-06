@@ -4,8 +4,14 @@ namespace App\Http\Controllers\scm;
 
 use App\Models\Supplier;
 use App\Models\Material;
+use App\Models\SupplierMaterial;
+use App\Models\Status;
+use App\Models\Country;
+use App\Models\Province;
+use App\Models\City;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Route;
 
 class SupplierController extends Controller
 {
@@ -16,8 +22,7 @@ class SupplierController extends Controller
      */
     public function index()
     {
-        $items = Supplier::with('supplierMaterial')->get()->toArray();
-
+        $items = Supplier::with('supplierMaterial','status')->get()->toArray();
         return view('scm.supplier.index', compact('items'));
     }
 
@@ -28,7 +33,14 @@ class SupplierController extends Controller
      */
     public function create()
     {
-        //
+        $items = ([
+            'materials' => Material::get()->toArray(),
+            'statuses' => Status::get()->toArray(),
+            'countries' => Country::get()->toArray(),
+            'provinces' => Province::get()->toArray(),
+            'cities' => City::get()->toArray(),
+        ]);
+        return view('scm.supplier.form', $items);
     }
 
     /**
@@ -40,11 +52,18 @@ class SupplierController extends Controller
     public function store(Request $request)
     {
         try{
-            Supplier::firstOrCreate($request->all());
+            $supplier = Supplier::firstOrCreate($request->except(['_token','supplied_materials']));
+            dd($supplier);
+            foreach($request->input('supplied_material') as $material){
+                SupplierMaterial::firstOrCreate([
+                    'supplier_id' => $supplier,
+                    'material_id' => $material,
+                ]);
+            }
 
-            return redirect()->route('supplier.index')->with('success', 'New Supplier Added');
+            return redirect()->route('suppliers.index')->with('success', 'New Supplier Added');
         }
-        catch(\Throawble $ex){
+        catch(\Throwable $ex){
             return back()->with('failed', $ex->getMessage().' at Line '.$ex->getLine());
         }
 
@@ -67,9 +86,24 @@ class SupplierController extends Controller
      * @param  \App\Models\Supplier  $supplier
      * @return \Illuminate\Http\Response
      */
-    public function edit(Supplier $supplier)
+    public function edit($id)
     {
-        //
+        $items = ([
+            'supplier' => Supplier::with('supplierMaterial')->find($id)->toArray(),
+            'materials' => Material::get()->toArray(),
+            'statuses' => Status::get()->toArray(),
+            'countries' => Country::get()->toArray(),
+            'provinces' => Province::get()->toArray(),
+            'cities' => City::get()->toArray(),
+            'id' => $id,
+        ]);
+        $items['supplied'] = array();
+        foreach($items['supplier']['supplier_material'] as $material){
+            $items['supplied'][] = $material['material']['id'];
+        }
+        $items['supplied'] = array_combine($items['supplied'], $items['supplied']);
+
+        return view('scm.supplier.form', $items);
     }
 
     /**
@@ -79,12 +113,19 @@ class SupplierController extends Controller
      * @param  \App\Models\Supplier  $supplier
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Supplier $supplier)
+    public function update($id, Request $request)
     {
         try{
-            Supplier::update($request->all());
+            Supplier::find($id)->update($request->all());
 
-            return redirect()->route('supplier.index')->with('success', 'Supplier Updated');
+            foreach($request->input('supplied_materials') as $material){
+                SupplierMaterial::firstOrCreate([
+                    'supplier_id' => $id,
+                    'material_id' => $material,
+                ]);
+            }
+
+            return redirect()->route('suppliers.index')->with('success', 'Supplier Updated');
         }
         catch(\Throawble $ex){
             return back()->with('failed', $ex->getMessage().' at Line '.$ex->getLine());

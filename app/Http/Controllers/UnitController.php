@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Scm;
+namespace App\Http\Controllers;
 
-use App\Models\Material;
+use App\Unit;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
-class MaterialController extends Controller
+class UnitController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,14 +14,7 @@ class MaterialController extends Controller
      */
     public function index()
     {
-        try{
-            $items = Material::with('unit:id,title')->get()->toArray();
-
-            return view('scm.material.index', compact('items'));
-        }
-        catch(\Throwable $ex){
-
-        }
+        //
     }
 
     /**
@@ -32,7 +24,7 @@ class MaterialController extends Controller
      */
     public function create()
     {
-        return view('scm.material.form');
+        //
     }
 
     /**
@@ -49,10 +41,10 @@ class MaterialController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Unit  $unit
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Unit $unit)
     {
         //
     }
@@ -60,45 +52,33 @@ class MaterialController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Unit  $unit
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Unit $unit)
     {
-        $items = ([
-            'material' => Material::find($id)->toArray(),
-            'id' => $id,
-        ]);
-
-        return view('scm.material.form', $items);
+        //
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Unit  $unit
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Unit $unit)
     {
-        try{
-            Material::find($id)->update($request->all());
-
-            return redirect()->route('materials.index')->with('success', 'Supplier Updated');
-        }
-        catch(\Throawble $ex){
-            return back()->with('failed', $ex->getMessage().' at Line '.$ex->getLine());
-        }
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Unit  $unit
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Unit $unit)
     {
         //
     }

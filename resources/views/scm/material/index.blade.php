@@ -19,7 +19,7 @@
         <div class="col-md-6">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Assign New Access</h3>
+                    <h3 class="box-title">Search</h3>
 
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
@@ -31,15 +31,15 @@
                 <div class="box-body">
                     <div class="row">
                         <div class="col-md-12">
-                        <form method="POST" enctype="multipart/form-data" action="{{ route('modules.store') }}">
+                        <form method="POST" enctype="multipart/form-data" action="{{ route('usersAccess.store') }}">
                             <div class="form-group">
                                 {{ csrf_field() }}
                                 <label>User</label>
-                                <input type="text" name="title" class="form-control">
-                                <label>Description</label>
-                                <input type="textarea" name="description" class="form-control">
                             </div>
-                            <button class="btn btn-primary btn-flat" type="submit">Create New</button>
+                            <div class="form-group">
+                                <label>Module</label>
+                            </div>
+                            <button class="btn btn-primary btn-flat" type="submit">Search</button>
                         </form>
                         </div>
                     </div>
@@ -49,32 +49,43 @@
         </div>
     </div>
     @include('layouts.notification')
+
         <div class="row">
             <div class="col-xs-12">
                 <div class="box">
                     <!-- /.box-header -->
                     <div class="box-body">
-                        <table id="example1" class="table table-bordered table-striped">
+                        <a href="{{route('materials.create')}}" class="btn btn-primary btn-flat">Add New Material</a>
+                        <br>
+                        <table id="table1" class="table table-bordered table-striped">
                             <thead>
                             <tr>
-                                <th>Module Title</th>
-                                <th>Module Description</th>
-                                <th>Created at</th>
+                                <th>Material Name</th>
+                                <th>Stock</th>
+                                <th>Unit</th>
+                                <th>Length</th>
+                                <th>Width</th>
+                                <th>Weight</th>
+                                <th>Updated At</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
                             @foreach($items as $item)
                                 <tr>
-                                    <td>{{$item['title']}}</td>
-                                    <td>{{$item['description']}}</td>
-                                    <td>{{$item['created_at']}}</td>
+                                    <td>{{$item['title']}} </td>
+                                    <td>{{$item['stock']}}</td>
+                                    <td>{{$item['unit']['title']}}</td>
+                                    <td>{{$item['length']}}</td>
+                                    <td>{{$item['width']}}</td>
+                                    <td>{{$item['weight']}}</td>
+                                    <td>{{$item['updated_at']}}</td>
                                     <td>
                                         <a class="btn btn-success btn-flat"
-                                           href="{{route('usersAccess.edit', $item['id'])}}"><i class="fa fa-edit"></i>
+                                           href="{{route('materials.edit', $item['id'])}}"><i class="fa fa-edit"></i>
                                         </a>
                                         <a class="btn btn-warning btn-flat"
-                                           href="{{route('usersAccess.destroy', $item['id'])}}"><i
+                                           href="{{route('materials.destroy', $item['id'])}}"><i
                                                     class="fa fa-trash-o"></i> </a>
                                     </td>
                                 </tr>
@@ -82,8 +93,8 @@
                             </tbody>
                             <tfoot>
                             <tr>
-                                <th>Module Title</th>
-                                <th>Module Description</th>
+                                <th>Name</th>
+                                <th>Module Access</th>
                                 <th>Created at</th>
                                 <th>Action</th>
                             </tr>

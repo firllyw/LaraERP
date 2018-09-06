@@ -25,7 +25,7 @@ Route::resources([
     'status' => 'StatusController',
 ]);
 
-Route::group(['prefix' => 'scm', 'namespace' => 'scm'], function () {
+Route::group(['prefix' => 'scm', 'namespace' => 'scm', 'middleware' => ['auth']], function () {
     Route::resources([
     'materials' => 'MaterialController',
     'suppliers' => 'SupplierController',

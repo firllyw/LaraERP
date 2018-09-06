@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSupplierMaterialsTable extends Migration
+class AddTableUnits extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,10 @@ class CreateSupplierMaterialsTable extends Migration
      */
     public function up()
     {
-        Schema::create('supplier_materials', function (Blueprint $table) {
+        Schema::create('units', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('supplier_id');
-            $table->unsignedInteger('material_id');
+            $table->string('title');
             $table->timestamps();
-
-            $table->foreign('supplier_id')->references('id')->on('suppliers');
-            $table->foreign('material_id')->references('id')->on('materials');
         });
     }
 
@@ -31,6 +27,6 @@ class CreateSupplierMaterialsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('supplier_materials');
+        Schema::dropIfExists('units');
     }
 }

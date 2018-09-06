@@ -55,11 +55,15 @@
                 <div class="box">
                     <!-- /.box-header -->
                     <div class="box-body">
-                        <table id="example1" class="table table-bordered table-striped">
+                        <a href="{{route('suppliers.create')}}" class="btn btn-primary btn-flat">Add New Supplier</a>
+                        <br>
+                        <table id="table1" class="table table-bordered table-striped">
                             <thead>
                             <tr>
                                 <th>Supplier</th>
                                 <th>Material</th>
+                                <th>Phone</th>
+                                <th>Representative</th>
                                 <th>Created at</th>
                                 <th>Action</th>
                             </tr>
@@ -67,16 +71,18 @@
                             <tbody>
                             @foreach($items as $item)
                                 <tr>
-                                    <td>{{$item['title']}}</td>
+                                    <td>{{$item['title']}} <small class="label pull-right bg-{{strtolower($item['status']['title'])!= 'active' ? 'red':'blue'}}">{{$item['status']['title']}}</small></td>
                                     <td>
                                         @foreach($item['supplier_material'] as $material)
                                             {{$material['material']['title']}},
                                         @endforeach
                                     </td>
+                                    <td>{{$item['phone']}}</td>
+                                    <td>{{$item['representative']}}</td>
                                     <td>{{$item['created_at']}}</td>
                                     <td>
                                         <a class="btn btn-success btn-flat"
-                                           href="{{route('usersAccess.edit', $item['id'])}}"><i class="fa fa-edit"></i>
+                                           href="{{route('suppliers.edit', $item['id'])}}"><i class="fa fa-edit"></i>
                                         </a>
                                         <a class="btn btn-warning btn-flat"
                                            href="{{route('usersAccess.destroy', $item['id'])}}"><i
