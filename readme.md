@@ -9,4 +9,9 @@
 
 ## About Lara-ERP
 
-a work in progress
+a work in progress. 
+
+if you want to use this specifically for your enterprise, reach me at fwahyudi17@gmail.com .
+we can discuss about how you want this system to be, and you can paypal me later after the work is done, not before. 
+
+Cheers. 
