@@ -17,4 +17,9 @@ class Status extends Model
     {
         return $this->hasMany(Supplier::class, 'status_id');
     }
+
+    public function request()
+    {
+        return $this->hasMany(RequestOrder::class, 'status_id');
+    }
 }

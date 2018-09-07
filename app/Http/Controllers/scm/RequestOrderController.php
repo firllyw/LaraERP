@@ -1,9 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Scm;
 
 use App\Models\RequestOrder;
+use App\Models\Status;
+use App\Models\Material;
+use App\Models\Supplier;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class RequestOrderController extends Controller
 {
@@ -14,7 +18,9 @@ class RequestOrderController extends Controller
      */
     public function index()
     {
-        //
+        $items = RequestOrder::with('supplier:id,title,phone', 'material:id,title', 'status:id,title')->get()->toArray();
+
+        return view('scm.request.index', compact('items'));
     }
 
     /**
@@ -24,7 +30,13 @@ class RequestOrderController extends Controller
      */
     public function create()
     {
-        //
+        $items = ([
+                'statuses' => Status::where('module_id', 3)->get()->toArray(),
+                'materials' => Material::all()->toArray(),
+                'suppliers' => Supplier::all()->toArray()
+        ]);
+
+        return view('scm.request.form' , $items);
     }
 
     /**
@@ -35,7 +47,22 @@ class RequestOrderController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try{
+            $transformRequest = $request->except('_token', 'documents');
+            if($request->hasFile('documents')){
+                $file = Controller::uploadFile($request);
+                $transformRequest = array_merge($request->except('_token', 'documents'), array('attachment'=>$file));
+            }
+
+            RequestOrder::firstOrCreate($transformRequest);
+            /*
+            Send Email To Supplier
+            */
+            return redirect()->route('requests.index')->with('success', 'New Request Applied');
+        }
+        catch(\Throwable $ex){
+            return back()->with('failed', $ex->getMessage().' at Line '.$ex->getLine());
+        }
     }
 
     /**

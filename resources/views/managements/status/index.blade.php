@@ -77,10 +77,10 @@
                                     <td>{{$item['created_at']}}</td>
                                     <td>
                                         <a class="btn btn-success btn-flat"
-                                           href="{{route('usersAccess.edit', $item['id'])}}"><i class="fa fa-edit"></i>
+                                           href="{{route('status.edit', $item['id'])}}"><i class="fa fa-edit"></i>
                                         </a>
                                         <a class="btn btn-warning btn-flat"
-                                           href="{{route('usersAccess.destroy', $item['id'])}}"><i
+                                           href="{{route('status.destroy', $item['id'])}}"><i
                                                     class="fa fa-trash-o"></i> </a>
                                     </td>
                                 </tr>

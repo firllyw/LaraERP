@@ -8,6 +8,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\Models\UsersAccess;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class Controller extends BaseController
 {
@@ -27,5 +28,20 @@ class Controller extends BaseController
         }
         $access = implode(",", $access);
         session(['access' => $access]);
+    }
+
+    public function uploadFile(Request $request)
+    {
+        if ($request->hasFile('documents')) {
+            $fileName = sprintf(
+                '%s%s.%s',
+                str_random(6),
+                time(),
+                $request->file('documents')->getClientOriginalExtension());
+            $request->file('documents')->move("uploads/", $fileName);
+
+            return $fileName;
+        }
+
     }
 }
